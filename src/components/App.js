@@ -22,17 +22,14 @@ class App extends React.Component {
   }
 
   initSubreddits() {
-    if (localStorage.length === 0) {
-      localStorage.setItem("subreddits", JSON.stringify([]));
-    } else {
-      if (localStorage.length === 1 && localStorage["subreddits"] === "[]") {
-        this.createSection("news")
-      } else {
-      this.state.watched = JSON.parse(localStorage.getItem("subreddits"));
-        for(let i=0; i < this.state.watched.length; i++) {
-          this.createSection(this.state.watched[i]);
-        }
-      }
+    if (localStorage.length === 0 || localStorage["subreddits"] === "[]") {
+      localStorage.setItem("subreddits", JSON.stringify(["news"]));
+      // this.createSection("news")
+    }
+    this.state.watched = JSON.parse(localStorage.getItem("subreddits"));
+    for(let i=0; i < this.state.watched.length; i++) {
+      this.createSection(this.state.watched[i]);
+
     }
   }
 
@@ -45,10 +42,11 @@ class App extends React.Component {
       if ("news" in this.state.dct) {
         delete this.state.dct["news"];
         this.state.sections.splice(0, 1)
+        this.state.watched.splice(0, 1)
       }
       this.state.watched.push(subreddit)
       localStorage.setItem("subreddits", JSON.stringify(this.state.watched))
-      $("#text").val ("");
+      document.getElementById("text").value = ""
     }
     return true;
   }
@@ -61,19 +59,40 @@ class App extends React.Component {
       delete this.state.dct[subreddit]
       this.updateLocalStorage("del", idx)
       this.setState({sections: this.state.sections})
-      $("#text").val ("");
+      document.getElementById("text").value = ""
       return true
     }
+    console.log("FALSE")
     alert("error: you must type the name of a tracked subreddit before attempting to remove");
     return false
   }
 
-  updateLocalStorage(op, val=null, idx=null) {
+  handleDelAllClick() {
+    console.log(this.state.watched)
+    const _len = this.state.watched.length
+    for(let i=0; i < _len; i++) {
+      this.handleDelClick(this.state.watched[0]);
+    }
+  }
+
+  deleteSubreddit() {
+
+  }
+
+  updateLocalStorage(op, val, idx) {
     let ls = JSON.parse(localStorage["subreddits"])
     if (op === "del") {
+      if (idx === null) {
+        console.log("error: 'idx' param required to delete");
+        return
+      }
       ls.splice(idx, 1)
     }
     if (op === "push") {
+      if (val === null) {
+        console.log("error: 'val' param required to push");
+        return
+      }
       ls.push(val)
     }
     if (ls.length === 0) {
@@ -189,14 +208,20 @@ class App extends React.Component {
       <div className="App">
         <header></header>
         <main>
+          <div id="tests">
+            <button onClick={() => console.log(localStorage)}>LS</button>
+            <button onClick={() => console.log(this.state.watched)}>state.subreddits</button>
+            <button onClick={() => localStorage.clear()}>Clear LS</button>
+          </div>
           <div className="container">
             <Input
               onClickAdd={evt => this.handleAddClick(evt)}
               onClickDel={evt => this.handleDelClick(evt)}
+              onClickDelAll={evt => this.handleDelAllClick(evt)}
             />
             <p/>
             <div className="watched-container">
-              <p>My Watched Subreddits:</p>
+              <p>Showing posts for these subreddits:</p>
             <Watched
               watchedFromApp={this.state.watched}
             />
