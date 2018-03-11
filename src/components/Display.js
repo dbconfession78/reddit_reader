@@ -13,7 +13,6 @@ class Display extends React.Component {
         <div key={i} className="Section">{elem}</div>
       );
     });
-    console.log("RENDERING DISPLAY.JS")
     return (
       <div className="Display">
         {s}

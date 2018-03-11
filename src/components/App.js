@@ -18,65 +18,101 @@ class App extends React.Component {
       dct: {},
       idx: 0,
       fresh: true,
+      newsIsTracked: false,
     }
   }
 
   initSubreddits() {
     if (localStorage.length === 0 || localStorage["subreddits"] === "[]") {
       localStorage.setItem("subreddits", JSON.stringify(["news"]));
-      // this.createSection("news")
     }
     this.state.watched = JSON.parse(localStorage.getItem("subreddits"));
     for(let i=0; i < this.state.watched.length; i++) {
       this.createSection(this.state.watched[i]);
-
     }
   }
 
-  handleAddClick(subreddit) {
-    if (subreddit in this.state.dct) {
-      alert("You are already tracking this subreddit.")
-      return false;
+  addSubreddit(subreddit) {
+    if (subreddit === "news") {
+      if (this.state.newsIsTracked) {
+        alert("You are already tracking this subreddit.");
+        return false
+      } else {
+        this.state.newsIsTracked = true;
+        if ("news" in this.state.dct) {
+          return true;
+        }
+      }
+    } else {
+      if (subreddit in this.state.dct) {
+        alert("You are already tracking this subreddit.");
+        return false
+      }
     }
     if (this.createSection(subreddit)) {
       if ("news" in this.state.dct) {
-        delete this.state.dct["news"];
-        this.state.sections.splice(0, 1)
-        this.state.watched.splice(0, 1)
+        if (this.state.newsIsTracked === false) {
+          delete this.state.dct["news"];
+           this.state.sections.splice(0, 1)
+           this.state.watched.splice(0, 1)
+        }
       }
       this.state.watched.push(subreddit)
       localStorage.setItem("subreddits", JSON.stringify(this.state.watched))
-      document.getElementById("text").value = ""
+      document.getElementById("text").value = "";
     }
-    return true;
+    this.setState({refresh: ""});
+    return true
+
+    // if (subreddit in this.state.dct) {
+    //   alert("You are already tracking this subreddit.")
+    //   return false;
+    // }
+    // if (this.createSection(subreddit)) {
+    //   if ("news" in this.state.dct) {
+    //     delete this.state.dct["news"];
+    //     this.state.sections.splice(0, 1)
+    //     this.state.watched.splice(0, 1)
+    //   }
+    //   this.state.watched.push(subreddit)
+    //   localStorage.setItem("subreddits", JSON.stringify(this.state.watched))
+    //   document.getElementById("text").value = ""
+    // }
+    // return true;
   }
 
-  handleDelClick(subreddit) {
+  delSubreddit(subreddit) {
+    if (subreddit === "news" && this.state.newsIsTracked) {
+      this.state.newsIsTracked = false;
+    }
     if (subreddit in this.state.dct) {
-      const idx = this.state.watched.indexOf(subreddit)
-      this.state.sections.splice(idx, 1)
-      this.state.watched.splice(idx, 1)
+      const idx = this.state.watched.indexOf(subreddit);
+      this.state.sections.splice(idx, 1);
+      this.state.watched.splice(idx, 1);
       delete this.state.dct[subreddit]
-      this.updateLocalStorage("del", idx)
-      this.setState({sections: this.state.sections})
+      this.updateLocalStorage("del", idx);
+      this.setState({sections: this.state.sections});
       document.getElementById("text").value = ""
       return true
     }
-    console.log("FALSE")
     alert("error: you must type the name of a tracked subreddit before attempting to remove");
-    return false
+    return false;
   }
 
-  handleDelAllClick() {
-    console.log(this.state.watched)
+  addButtonActionPerformed(subreddit) {
+    this.addSubreddit(subreddit);
+  }
+
+  delButtonActionPerformed(subreddit) {
+    this.delSubreddit(subreddit);
+  }
+
+  delAllButtonActionPerformed() {
+    this.state.newsIsTracked = false;
     const _len = this.state.watched.length
     for(let i=0; i < _len; i++) {
-      this.handleDelClick(this.state.watched[0]);
+      this.delSubreddit(this.state.watched[0]);
     }
-  }
-
-  deleteSubreddit() {
-
   }
 
   updateLocalStorage(op, val, idx) {
@@ -199,7 +235,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log("RENDERING APP.JS")
     if (this.state.fresh === true) {
       this.initSubreddits();
       this.state.fresh=false;
@@ -213,23 +248,35 @@ class App extends React.Component {
             <button onClick={() => console.log(this.state.watched)}>state.subreddits</button>
             <button onClick={() => localStorage.clear()}>Clear LS</button>
           </div>
-          <div className="container">
-            <Input
-              onClickAdd={evt => this.handleAddClick(evt)}
-              onClickDel={evt => this.handleDelClick(evt)}
-              onClickDelAll={evt => this.handleDelAllClick(evt)}
-            />
+
+          <div className="Wrapper">
+
+            <div className="TopContainer">
+
+
+              <div style={{float: "left"}} className="WatchedContainer">
+                <p>Showing posts for these subreddits:</p>
+                <Watched
+                  watchedFromApp={this.state.watched}
+                />
+              </div>
+
+              <div style={{float: "left"}} className="InputContainer">
+                <Input
+                  onClickAdd={evt => this.addButtonActionPerformed(evt)}
+                  onClickDel={evt => this.delButtonActionPerformed(evt)}
+                  onClickDelAll={evt => this.delAllButtonActionPerformed(evt)}
+                />
+                {/* <p/> */}
+              </div>
+
             <p/>
-            <div className="watched-container">
-              <p>Showing posts for these subreddits:</p>
-            <Watched
-              watchedFromApp={this.state.watched}
-            />
           </div>
-          <p/>
+          <div className="DisplayContainer">
             <Display
               sections={this.state.sections}
             />
+          </div>
           </div>
         </main>
       <footer>Reddit Reader</footer>

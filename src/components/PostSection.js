@@ -9,7 +9,6 @@ class PostSection extends React.Component {
   }
 
   render() {
-    console.log(this.props.sectionPosts)
     return (
       <div>{this.props.sectionPosts}</div>
     );

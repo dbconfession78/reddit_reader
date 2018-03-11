@@ -16,7 +16,6 @@ class Watched extends React.Component {
   }
 
   render() {
-    console.log("RENDERING WATCHED.JS")
     const _len = this.props.watchedFromApp.length;
     let watchedDivs = []
 
@@ -43,7 +42,7 @@ class Watched extends React.Component {
       }
       return (
         <div>{elem}</div>
-        
+
       );
     });
 
