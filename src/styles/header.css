@@ -1,0 +1,18 @@
+@charset "UTF-8";
+/** Reddit Reader Styles
+ * ------ Header
+ */
+
+header {
+	background-size: 150px;
+	/* background-color: #1da1f2; */
+  background-color: #CEE3F8;
+	/* background-image: url("../images/reddit-png-reddit-logo-256.png"); */
+  background-image: url("../images/reddit-png-reddit-png-256.png");
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	height: 160px;
+	width: 100%;
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}

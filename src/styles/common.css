@@ -1,0 +1,47 @@
+@charset "UTF-8";
+/* Reddit Reader Styles
+* ------ Common
+*/
+
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+	color: #484848;
+	font-size: 14px;
+	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+main {
+	flex-grow: 1;
+	flex-shrink: 0;
+	padding: 10px;
+}
+
+.container {
+	max-width: 700px;
+	margin: 30px auto;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.watched-container {
+  padding: 1px 5px 10px 15px;
+  border: 1px solid;
+  width:50%;
+
+}
+
+.post-container {
+	padding: 5px 5px 5px 5px;
+  border: 1px solid;
+}
