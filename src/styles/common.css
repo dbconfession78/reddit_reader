@@ -53,10 +53,15 @@ main {
 
 .InputContainer {
 	width: 30%;
-	margin-top: -10px;
+	vertical-align: top;
+	margin-top: -23px;
 	/* border: 1px solid; */
 	/* padding: 1px 5px 10px 15px; */
 	/* float: right; */
+}
+
+.TopContainer {
+	padding-bottom: 5px;
 }
 
 #text {
@@ -74,6 +79,12 @@ button {
 	/* float: right; */
 }
 
-#input_field {
-	/* float: left; */
+#heading {
+	background: #CEE3F8;
+	border: 1px solid;
+	height: 50px;
+	padding-top: 20px;
+	padding-left: 20px;
+	margin-bottom: 10px;
+	font-size: 40px;
 }

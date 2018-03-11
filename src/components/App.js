@@ -60,6 +60,8 @@ class App extends React.Component {
       this.state.watched.push(subreddit)
       localStorage.setItem("subreddits", JSON.stringify(this.state.watched))
       document.getElementById("text").value = "";
+    } else {
+      return false;
     }
     this.setState({refresh: ""});
     return true
@@ -146,7 +148,7 @@ class App extends React.Component {
 
     const postsList = this.buildPostsList(res, subreddit)
     const sectionPosts = this.buildSectionPosts(postsList, subreddit)
-    const section = <PostSection className="post-container" sectionPosts={sectionPosts}/>
+    const section = <PostSection className="PostContainer" subredditName={subreddit} sectionPosts={sectionPosts}/>
     this.state.sections.push(section)
 
     this.state.dct[subreddit] = postsList
@@ -216,6 +218,7 @@ class App extends React.Component {
         for(let i=0; i < postCount; i++) {
           retBuild.push(
             <div key={i} className="post-container">
+              <div>Subreddit: {subreddit}</div>
               <div>Author: {postsList[i]["author"]}</div>
               <div><a href={postsList[i]["url"]}>{postsList[i]["title"]}</a></div>
               <div>{postsList[i]["selftext"]}</div>
@@ -243,34 +246,32 @@ class App extends React.Component {
       <div className="App">
         <header></header>
         <main>
-          <div id="tests">
+          {/* <div id="tests">
             <button onClick={() => console.log(localStorage)}>LS</button>
             <button onClick={() => console.log(this.state.watched)}>state.subreddits</button>
             <button onClick={() => localStorage.clear()}>Clear LS</button>
-          </div>
+          </div> */}
 
           <div className="Wrapper">
 
             <div className="TopContainer">
-
-
               <div style={{float: "left"}} className="WatchedContainer">
                 <p>Showing posts for these subreddits:</p>
                 <Watched
                   watchedFromApp={this.state.watched}
                 />
               </div>
-
+            <p/>
               <div style={{float: "left"}} className="InputContainer">
                 <Input
                   onClickAdd={evt => this.addButtonActionPerformed(evt)}
                   onClickDel={evt => this.delButtonActionPerformed(evt)}
                   onClickDelAll={evt => this.delAllButtonActionPerformed(evt)}
                 />
-                {/* <p/> */}
+                <p/>
               </div>
 
-            <p/>
+
           </div>
           <div className="DisplayContainer">
             <Display

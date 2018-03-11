@@ -10,7 +10,11 @@ class PostSection extends React.Component {
 
   render() {
     return (
+      <div>
+      <div id="heading">/r/{this.props.subredditName}</div>
       <div>{this.props.sectionPosts}</div>
+      <p/>
+    </div>
     );
   }
 }
