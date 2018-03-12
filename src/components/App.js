@@ -63,22 +63,6 @@ class App extends React.Component {
     }
     this.setState({refresh: ''});
     return true;
-
-    // if (subreddit in this.state.dct) {
-    //   alert("You are already tracking this subreddit.")
-    //   return false;
-    // }
-    // if (this.createSection(subreddit)) {
-    //   if ("news" in this.state.dct) {
-    //     delete this.state.dct["news"];
-    //     this.state.sections.splice(0, 1)
-    //     this.state.watched.splice(0, 1)
-    //   }
-    //   this.state.watched.push(subreddit)
-    //   localStorage.setItem("subreddits", JSON.stringify(this.state.watched))
-    //   document.getElementById("text").value = ""
-    // }
-    // return true;
   }
 
   delSubreddit (subreddit) {
