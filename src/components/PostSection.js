@@ -1,20 +1,20 @@
 import React from 'react';
 
 class PostSection extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
-      refresh: "",
-    }
+      refresh: ''
+    };
   }
 
-  render() {
+  render () {
     return (
       <div>
-      <div id="heading">/r/{this.props.subredditName}</div>
-      <div>{this.props.sectionPosts}</div>
-      <p/>
-    </div>
+        <div id={this.props.subredditName} className='heading'>/r/{this.props.subredditName}</div>
+        <div>{this.props.sectionPosts}</div>
+        <p />
+      </div>
     );
   }
 }

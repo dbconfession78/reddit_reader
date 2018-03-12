@@ -38,6 +38,7 @@ main {
   padding: 1px 5px 10px 15px;
   border: 1px solid;
   width:50%;
+	float: left;
 
 }
 
@@ -46,18 +47,16 @@ main {
   border: 1px solid;
 }
 
-.Input {
+.InputWrapper {
 	width: 500px;
 	margin: 10px;
 }
 
-.InputContainer {
+.InputComponent {
 	width: 30%;
 	vertical-align: top;
 	margin-top: -23px;
-	/* border: 1px solid; */
-	/* padding: 1px 5px 10px 15px; */
-	/* float: right; */
+	float: left;
 }
 
 .TopContainer {
@@ -75,11 +74,9 @@ button {
 
 .InputButtons{
 	width: 30%;
-	/* padding: 50px; */
-	/* float: right; */
 }
 
-#heading {
+.heading {
 	background: #CEE3F8;
 	border: 1px solid;
 	height: 50px;
