@@ -147,7 +147,7 @@ class App extends React.Component {
         return res;
       },
       error: function (err) {
-        console.log(err);
+        console.log(err.statusText);
       }
     });
     return retval['responseJSON'];
